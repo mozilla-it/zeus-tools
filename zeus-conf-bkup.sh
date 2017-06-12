@@ -4,8 +4,8 @@
 # the current state of the conf/ folder in zeus' install path.
 
 #provide correct path to override the following two positional arguments
-CONF=${1:-~/zeus-conf/}
-BKUP=${2:-~/zeus-bkup/}
+CONF=${1:-~/zeus-conf}
+BKUP=${2:-~/zeus-bkup}
 
 if ! hash git 2> /dev/null; then
     echo "git not installed!"
@@ -16,8 +16,10 @@ if ! hash rsync 2> /dev/null; then
     exit 1
 fi
 
+
+
 mkdir -p $BKUP
-rsync -rav --delete --exclude=.git/ $CONF $BKUP
+rsync -rav --delete --exclude=.git/ $CONF/ $BKUP/
 cd $BKUP
 if [ "true" != "`git rev-parse --is-inside-work-tree 2> /dev/null`" ]; then
     git init
