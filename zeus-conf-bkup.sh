@@ -16,8 +16,6 @@ if ! hash rsync 2> /dev/null; then
     exit 1
 fi
 
-
-
 mkdir -p $BKUP
 rsync -rav --delete --exclude=.git/ $CONF/ $BKUP/
 cd $BKUP
