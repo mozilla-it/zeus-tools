@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This is meant to be used as a shell script invoked in a cron for backing up
 # the current state of the conf/ folder in zeus' install path.
