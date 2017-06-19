@@ -33,7 +33,7 @@ backup() {
     git add .
     MSG="`git status --short`"
     if [ "$MSG" ]; then
-        git commit -m "$MSG"
+        git commit -q -m "$MSG"
     fi
 }
 
