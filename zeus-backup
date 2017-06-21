@@ -59,7 +59,8 @@ backup() {
 restore() {
     REV=`cd $BKUP && git rev-parse $REV`
     (cd $BKUP && git clean -xfd && git reset --hard $REV)
-    (cd $BKUP && rsync -rav --delete --exclude=.git/ $BKUP/ $CONF/)
+    rsync -rav --delete --exclude=.git/ $BKUP/ $CONF/
+    (cd $BKUP && git reset --hard HEAD)
 }
 
 if ! is_repo; then
