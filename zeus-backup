@@ -11,6 +11,12 @@ CONF=${1:-~/zeus-conf}; CONF=`readlink -f $CONF`
 BKUP=${2:-~/zeus-bkup}; BKUP=`readlink -f $BKUP`
 REV=${3:HEAD}
 
+EXCLUDES=(
+    .git
+    .gitignore
+)
+EXCLUDES=`printf -- "--exclude=%s " "${EXCLUDES[@]}"`
+
 if [ -n "$DEBUG" ]; then
     set -x
 fi
@@ -48,7 +54,7 @@ backup() {
     if ! is_repo; then
         init_repo
     fi
-    rsync -rav --quiet --delete --exclude=.git/ --exclude=.gitignore $CONF/ $BKUP/
+    rsync -rav --quiet --delete $EXCLUDES $CONF/ $BKUP/
     (cd $BKUP && git add .)
     MSG="`cd $BKUP && git status --short`"
     if [ -n "$MSG" ]; then
@@ -59,7 +65,7 @@ backup() {
 restore() {
     REV=`cd $BKUP && git rev-parse $REV`
     (cd $BKUP && git clean -xfd && git reset --hard $REV)
-    rsync -rav --delete --exclude=.git/ $BKUP/ $CONF/
+    rsync -rav --delete $EXCLUDES $BKUP/ $CONF/
     (cd $BKUP && git reset --hard HEAD)
 }
 
