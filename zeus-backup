@@ -55,7 +55,7 @@ backup() {
         init_repo
     fi
     rsync -rav --quiet --delete $EXCLUDES $CONF/ $BKUP/
-    (cd $BKUP && git add .)
+    (cd $BKUP && git add --all . > /dev/null)
     MSG="`cd $BKUP && git status --short`"
     if [ -n "$MSG" ]; then
         (cd $BKUP && git commit -q -m "$MSG")
